@@ -1,0 +1,35 @@
+version: '3'
+services:
+  nginx:
+    build: containers/nginx
+    ports:
+      - "80:80"
+    restart: on-failure:2
+    links:
+      - web
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    environment: &env
+      DATABASE_URL: 'mysql2://xxxxx:xxxxx@xxxxxxx.cbvuvxhdpini.ap-northeast-1.rds.amazonaws.com/xxxxx_prod'
+      REDIS_URL: redis://xxxxx-redis.xxxxxx.xx.0001.apne1.cache.amazonaws.com:6379/0
+      SECRET_KEY_BASE: 8c008c25af3e3f885045c919533a251543cb876c15d835e1762487b3421bd8dbd118364a5a263644164cbee5a4f679ad8736396b17e503ad1679211097be8567
+      MAILER_URL_HOST: 'example.com'
+    command: bundle exec puma -C config/puma.rb
+    volumes: &volumes
+      - /usr/local/myapp/log:/usr/local/myapp/log
+      - /usr/local/myapp/public/system:/usr/local/myapp/public/system
+    ports:
+      - "3000:3000"
+    restart: on-failure:2
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    environment: *env
+    volumes: *volumes
+    command: bundle exec sidekiq -q notification
+    restart: on-failure:2
