@@ -38,9 +38,22 @@ gem 'bcrypt', '~> 3.1.7'
 # slim
 gem 'slim-rails'
 
+# pry
+gem 'pry-rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+
+  # コンソールでステップ実行
+  gem 'pry-doc'
+  gem 'pry-byebug'
+  gem 'pry-stack_explorer'
+
+  # エラー画面改善実行できるようになる
+  gem 'better_errors'
+  # エラー画面でREPL実行できるように
+  gem 'binding_of_caller'
 end
 
 group :development do
@@ -50,6 +63,9 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
+  # N+1問題を発見してくれる
+  gem 'bullet'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -62,3 +78,13 @@ gem 'sinatra', require: false
 
 # 設定管理
 gem 'config'
+
+# モデル内容を表形式で表示
+gem 'hirb'
+gem 'hirb-unicode'
+
+# 検索用
+gem 'ransack'
+
+# 列挙型
+gem 'inum'
