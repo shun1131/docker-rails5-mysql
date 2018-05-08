@@ -1,0 +1,4 @@
+redis:
+  url: <%= ENV["REDIS_URL"] %>
+mailer:
+  url_host: <%= ENV['MAILER_URL_HOST'] || 'localhost:3000' %>
